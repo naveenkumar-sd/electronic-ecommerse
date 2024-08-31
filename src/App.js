@@ -1,25 +1,70 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from 'react'
+import Nav from './comp/nav'
+import Rout from './comp/rout'
+import Footer from './comp/footer'
+import HomeProduct from './comp/home_product'
+import { BrowserRouter } from 'react-router-dom'
 
-function App() {
+
+const App = () => {
+
+  //shop page product
+  const [shop, setShop] = useState(HomeProduct)
+
+  //Shop search Filter
+  const [search, setSearch] = useState([])
+
+  //shop category filter
+  const Filter = (x) => {
+    const catefilter = HomeProduct.filter((product) => {
+      return product.cat === x
+    })
+    setShop(catefilter)
+  }
+
+  const allcartfilter = () => {
+    setShop(HomeProduct)
+  }
+
+
+  //shop search filter
+  const searchlength = (search || []).length === 0
+  const searchproduct = () => {
+
+    if (searchlength) {
+
+      alert("Please Search Something !")
+      setShop(HomeProduct)
+
+    } else {
+
+
+
+      const searchfilter = HomeProduct.filter((x) => {
+        return x.cat === search
+
+      })
+      setShop(searchfilter)
+
+    }
+  }
+
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <>
+
+      <BrowserRouter>
+
+        <Nav search={search} setSearch={setSearch} searchproduct={searchproduct} />
+        <Rout shop={shop} Filter={Filter} allcartfilter={allcartfilter} />
+        <Footer />
+
+      </BrowserRouter>
+
+    </>
+  )
 }
 
-export default App;
+export default App
