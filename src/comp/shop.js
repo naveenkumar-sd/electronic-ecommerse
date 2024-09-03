@@ -1,10 +1,49 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './shop.css'
 import { FaHeart, FaEye } from "react-icons/fa";
+import { AiOutlineClose } from "react-icons/ai";
 
-const Shop = ({ shop, Filter, allcartfilter }) => {
+const Shop = ({ shop, Filter, allcartfilter, addtocart }) => {
+
+    // Toggle product Detail
+    const [showDetail, setShowDetail] = useState(false);
+    // Detail Page Data
+    const [detail, setDetail] = useState(null);
+
+    // Showing Detail Box
+    const detailpage = (product) => {
+        setDetail(product);
+        setShowDetail(true);
+    };
+
+    const closedetail = () => {
+        setShowDetail(false);
+    };
+
     return (
         <>
+            {
+                showDetail && detail && (
+                    <div className='product_detail'>
+                        <button className='close_btn' onClick={closedetail}><AiOutlineClose /></button>
+                        <div className='container'>
+                            <div className='img_box'>
+                                <img src={detail.image} alt={detail.Name}></img>
+                            </div>
+                            <div className='product_info'>
+                                <h4># {detail.cat}</h4>
+                                <h2>{detail.Name}</h2>
+                                <p>A Screen Everyone Will Love: Whether your family is streaming or view</p>
+                                <p>Price: ${detail.price}</p>
+                                <button onClick={() => addtocart(detail)}>Add to cart</button>
+
+                                {/* Add more product details here */}
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+
             <div className='shop'>
                 <h2># shop</h2>
                 <p>Home/ shop</p>
@@ -50,13 +89,13 @@ const Shop = ({ shop, Filter, allcartfilter }) => {
                                                     <img src={curElm.image} alt={curElm.Name}></img>
                                                     <div className='icon'>
                                                         <li><FaHeart /></li>
-                                                        <li><FaEye /></li>
+                                                        <li onClick={() => detailpage(curElm)}><FaEye /></li>
                                                     </div>
                                                 </div>
                                                 <div className='detail'>
                                                     <h3>{curElm.Name}</h3>
                                                     <p>${curElm.price}</p>
-                                                    <button>Add To Cart</button>
+                                                    <button onClick={() => addtocart(curElm)}>Add To Cart</button>
                                                 </div>
                                             </div>
                                         );
@@ -71,4 +110,4 @@ const Shop = ({ shop, Filter, allcartfilter }) => {
     )
 }
 
-export default Shop
+export default Shop;

@@ -8,6 +8,9 @@ import { BrowserRouter } from 'react-router-dom'
 
 const App = () => {
 
+  //Add to cart
+  const [cart, setCart] = useState([])
+
   //shop page product
   const [shop, setShop] = useState(HomeProduct)
 
@@ -50,6 +53,26 @@ const App = () => {
   }
 
 
+  //Add to cart
+
+
+
+  const addtocart = (product) => {
+
+    const exist = cart.find((x) => {
+      return x.id === product.id
+    })
+    if (exist) {
+      alert("This product is already in cart")
+    } else {
+      setCart([...cart, { ...product, qty: 1 }])
+      alert("Added to cart")
+    }
+
+
+
+  }
+  console.log(cart)
 
 
   return (
@@ -58,7 +81,7 @@ const App = () => {
       <BrowserRouter>
 
         <Nav search={search} setSearch={setSearch} searchproduct={searchproduct} />
-        <Rout shop={shop} Filter={Filter} allcartfilter={allcartfilter} />
+        <Rout setCart={setCart} cart={cart} shop={shop} Filter={Filter} allcartfilter={allcartfilter} addtocart={addtocart} />
         <Footer />
 
       </BrowserRouter>

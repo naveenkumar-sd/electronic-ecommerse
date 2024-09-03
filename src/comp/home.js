@@ -5,7 +5,7 @@ import { FaEye, FaHeart, FaFacebook, FaTwitter, FaInstagram, FaYoutube } from "r
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import HomeProduct from './home_product';
 
-const Home = () => {
+const Home = ({ addtocart }) => {
     //product category
     const [newProduct, setNewProduct] = useState([])
     const [featuredProduct, setFeaturedProduct] = useState([])
@@ -100,7 +100,7 @@ const Home = () => {
                                                         <div className='info'>
                                                             <h3>{curElm.Name}</h3>
                                                             <p>${curElm.price}</p>
-                                                            <button className='btn'>Add To Cart</button>
+                                                            <button className='btn' onClick={() => addtocart(curElm)}>Add To Cart</button>
                                                         </div>
                                                     </div>
                                                 </>
@@ -201,7 +201,7 @@ const Home = () => {
                                                     <div className='icon'>
                                                         <button><FaEye /></button>
                                                         <button><FaHeart /></button>
-                                                        <button><AiOutlineShoppingCart /></button>
+                                                        <button onClick={() => addtocart(curElm)}><AiOutlineShoppingCart /></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -229,7 +229,7 @@ const Home = () => {
                                                     <div className='icon'>
                                                         <button><FaEye /></button>
                                                         <button><FaHeart /></button>
-                                                        <button><AiOutlineShoppingCart /></button>
+                                                        <button onClick={() => addtocart(curElm)}><AiOutlineShoppingCart /></button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -257,7 +257,7 @@ const Home = () => {
                                                     <div className='icon'>
                                                         <button><FaEye /></button>
                                                         <button><FaHeart /></button>
-                                                        <button><AiOutlineShoppingCart /></button>
+                                                        <button onClick={() => addtocart(curElm)}><AiOutlineShoppingCart /></button>
                                                     </div>
                                                 </div>
                                             </div>
