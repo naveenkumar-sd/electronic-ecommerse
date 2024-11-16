@@ -1,7 +1,7 @@
 import React from 'react';
 import './cart.css';
 import { Link } from 'react-router-dom';
-import { FaHeart, FaEye } from "react-icons/fa";
+import { FaHeart } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
 
 const Cart = ({ cart, setCart, like, setLike, setLikedProductsIds, likedProductsIds, setAddCartProduct, addCartProduct }) => {
