@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/Electronics_website/static/css/main.c28f45d1.css",
+    "main.js": "/Electronics_website/static/js/main.56645bb0.js",
+    "static/js/453.39971b30.chunk.js": "/Electronics_website/static/js/453.39971b30.chunk.js",
+    "static/media/slide-1.webp": "/Electronics_website/static/media/slide-1.c4a81f50b414c8a83765.webp",
+    "index.html": "/Electronics_website/index.html",
+    "main.c28f45d1.css.map": "/Electronics_website/static/css/main.c28f45d1.css.map",
+    "main.56645bb0.js.map": "/Electronics_website/static/js/main.56645bb0.js.map",
+    "453.39971b30.chunk.js.map": "/Electronics_website/static/js/453.39971b30.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.c28f45d1.css",
+    "static/js/main.56645bb0.js"
+  ]
+}

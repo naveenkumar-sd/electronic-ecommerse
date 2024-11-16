@@ -6,7 +6,7 @@ import { FiLogIn } from 'react-icons/fi'
 import { CiLogout } from 'react-icons/ci'
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from 'react-router-dom';
-
+import logo from '../image/logo.webp';
 
 import './nav.css'
 
@@ -21,12 +21,12 @@ const Nav = ({ search, setSearch, searchproduct }) => {
                     </div>
 
                     <div className='info'>
-                        <p>Free shipping when shopping upto $1000</p>
+                        <p>Free shipping when shopping upto  ₹1000</p>
                     </div>
                 </div>
                 <div className='mid_header'>
                     <div className='logo'>
-                        <img src='image/image/logo.webp' alt='logo'></img>
+                        <img src={logo} alt='logo'></img>
                     </div>
                     <div className='search_box'>
                         <input type='text' value={search} placeholder='search' onChange={(e) => setSearch(e.target.value)}></input>
@@ -102,7 +102,7 @@ const Nav = ({ search, setSearch, searchproduct }) => {
                             <li><Link to='/' className='link'>Home</Link></li>
                             <li><Link to='/shop' className='link'>Shop</Link></li>
                             <li> <Link to='/cart' className='link'>Cart</Link></li>
-                            <li> <Link to='/about' className='link'>About</Link></li>
+                            {/* <li> <Link to='/about' className='link'>About</Link></li> */}
                             <li> <Link to='/contact' className='link'>Contact</Link></li>
                         </ul>
                     </div>

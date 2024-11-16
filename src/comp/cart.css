@@ -21,7 +21,7 @@
 
 .cart .empty_cart {
     width: 100%;
-    align-items: center;
+    text-align: center;
 }
 
 .cart .empty_cart h2 {
@@ -33,7 +33,6 @@
 }
 
 .cart .empty_cart button {
-    margin-left: 45%;
     padding: 10px 30px;
     margin-top: 10px;
     background: #fed700;
@@ -45,9 +44,17 @@
     cursor: pointer;
 }
 
+.cart .empty_cart button:hover {
+    background: #cd1e76;
+    color: #fff;
+    border: #cd1e76;
+    border-radius: 10px;
+}
+
 .cart .container {
     min-width: 100%;
     padding: 10px 20px;
+
 }
 
 .cart .container .box {
@@ -56,6 +63,7 @@
     border: 2px solid #f6f6f6;
     height: 250px;
     margin-top: 10px;
+
 }
 
 .cart .container .box .img_box {
@@ -81,6 +89,8 @@
 .cart .container .box .detail .info {
     margin-top: 40px;
     margin-left: 60px;
+    width: 180px;
+    height: 70px;
 
 }
 
@@ -156,7 +166,10 @@
 }
 
 .cart .bottom {
-    margin-left: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .cart .bottom .Total h4 {
@@ -177,4 +190,159 @@
     font-size: 16px;
     margin-top: 20px;
     cursor: pointer;
+}
+
+.like {
+    width: 100%;
+    padding: 20px 30px;
+}
+
+.like h3 {
+    font-size: 24px;
+    text-transform: uppercase;
+    color: #232323;
+    letter-spacing: 1px;
+    font-weight: 300;
+}
+
+.like .empty_like h2 {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: #cd1e76;
+    letter-spacing: 1px;
+}
+
+.like .empty_like {
+    width: 100%;
+    text-align: center;
+
+}
+
+.like .empty_like button {
+    padding: 10px 30px;
+    margin-top: 10px;
+    background: #fed700;
+    color: #000;
+    border: none;
+    outline: none;
+    border: 1px solid #fed700;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+.like .empty_like button:hover {
+    background: #cd1e76;
+    color: #fff;
+    border: #cd1e76;
+    border-radius: 10px;
+}
+
+.like .container {
+    display: flex;
+    flex-wrap: wrap;
+    /* Allows items to wrap */
+    gap: 20px;
+    /* Adds spacing between boxes */
+}
+
+.like .container .box {
+    display: flex;
+    flex-direction: row;
+    width: calc(50% - 20px);
+    /* Adjust width to make items sit side by side (50%) */
+    border: 2px solid #f6f6f6;
+    height: auto;
+    margin-top: 10px;
+    box-sizing: border-box;
+}
+
+.like .img_box img {
+    width: 270px;
+    /* Adjust as per your requirement */
+    height: 270px;
+}
+
+.like .container .box .detail {
+    display: flex;
+    width: 100%;
+    margin-top: 8%;
+    margin-left: 30px;
+}
+
+.like .container .box .detail .info {
+    margin-top: 40px;
+    margin-left: 60px;
+    width: 180px;
+    height: 40px;
+
+}
+
+.like .container .box .detail .info h4 {
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #8a8a8a;
+}
+
+.like .container .box .detail .info h3 {
+    margin-top: 10px;
+    color: #232323;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+
+}
+
+.like .container .box .detail .info p {
+    margin-top: 10px;
+    color: #232323;
+    text-transform: uppercase;
+}
+
+.like .container .box .detail .icon {
+    margin-top: -48px;
+    margin-left: 35%;
+}
+
+.like .container .box .detail .icon li {
+    list-style: none;
+    background: #cd1e76;
+    padding: 10px 10px;
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    transition: color 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+    display: inline-block;
+    /* Ensure it can rotate properly */
+}
+
+/* Hover effect */
+.like .container .box .detail .icon li:hover {
+    transform: rotateY(360deg);
+}
+
+/* Infinite rotation (for continuous effect) */
+.like .container .box .detail .icon li.infinite {
+    animation: rotate 1s linear infinite;
+}
+
+/* Animation for click */
+.like .container .box .detail .icon li.rotate {
+    animation: rotate 0.5s linear;
+    /* Rotate for 0.5 seconds */
+}
+
+@keyframes rotate {
+    from {
+        transform: rotateY(0deg);
+        /* Start from 0 degrees */
+    }
+
+    to {
+        transform: rotateY(360deg);
+        /* End at 360 degrees */
+    }
 }

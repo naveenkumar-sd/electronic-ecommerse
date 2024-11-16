@@ -1,18 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import './home.css'
 import { Link } from 'react-router-dom'
-import { FaEye, FaHeart, FaFacebook, FaTwitter, FaInstagram, FaYoutube } from "react-icons/fa";
-import { AiOutlineShoppingCart } from "react-icons/ai";
+import { FaEye, FaHeart, FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaShoppingCart } from "react-icons/fa";
+import { AiOutlineShoppingCart, AiOutlineClose } from "react-icons/ai";
 import HomeProduct from './home_product';
+import girl from '../image/education.png';
+import multi1 from '../image/Multi-Banner-1.avif';
+import multi2 from '../image/Multi-banner-2.avif';
+import multi3 from '../image/Multi-Banner-3.webp';
+import multi4 from '../image/Multi-banner-4.avif';
+import multi5 from '../image/Multi-Banner-5.webp';
 
-const Home = ({ addtocart }) => {
+
+
+const Home = ({ addtocart, addtolike, likedProductsIds, setAddCartProduct, addCartProduct }) => {
     //product category
     const [newProduct, setNewProduct] = useState([])
     const [featuredProduct, setFeaturedProduct] = useState([])
     const [topProduct, setTopProduct] = useState([])
 
+
     //Trending product
-    const [trendingProduct, setTrendingProduct] = useState(HomeProduct)
+    const [trendingProduct, setTrendingProduct] = useState(HomeProduct);
     // Filter of trending product
 
     const filtercate = (x) => {
@@ -28,10 +37,22 @@ const Home = ({ addtocart }) => {
         setTrendingProduct(HomeProduct)
     }
 
+    //format currency
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(amount);
+    };
+
+
     //product Type
     useEffect(() => {
         productcategory()
     })
+
 
     const productcategory = () => {
 
@@ -54,9 +75,57 @@ const Home = ({ addtocart }) => {
         setTopProduct(topcategory)
     }
 
+    // Toggle product Detail    
+    const [showDetail, setShowDetail] = useState(false);
+
+    // Detail Page Data
+    const [detail, setDetail] = useState(null);
+
+    // Showing Detail Box
+    const detailpage = (product) => {
+        setDetail(product);
+        setShowDetail(true);
+    };
+
+    const closedetail = () => {
+        setShowDetail(false);
+    };
+
 
     return (
+
+
         <>
+
+            {
+                showDetail && detail && (
+                    <div className='product_detail'>
+                        <button className='close_btn' onClick={closedetail}><AiOutlineClose /></button>
+                        <div className='container'>
+                            <div className='img_box'>
+                                <img src={detail.images} alt={detail.Name}></img>
+                            </div>
+                            <div className='product_info'>
+                                <h4># {detail.cat}</h4>
+                                <h2>{detail.Name}</h2>
+                                <p>{detail.lines}</p>
+                                <p>Price: {formatCurrency(detail.price)}</p>
+                                <button onClick={() => {
+                                    console.log(`Button clicked for: ${detail.Name}`);
+                                    addtocart(detail);
+                                }}
+                                    className={`add-cart ${addCartProduct.includes(detail.id) ? 'addtocart1' : 'removetocart1'}`}
+                                >
+                                    {addCartProduct.includes(detail.id) ? 'Remove cart' : 'Add To Cart'}
+                                </button>
+                                {/* Add more product details here */}
+                            </div>
+                        </div>
+                    </div>
+                )
+            }
+
+
             <div className='home'>
                 <div className='top_banner'>
                     <div className='content'>
@@ -83,24 +152,33 @@ const Home = ({ addtocart }) => {
                                 <div className='container'>
                                     {
                                         trendingProduct.map((curElm) => {
+                                            const isLiked = likedProductsIds.includes(curElm.id);
+                                            const isAdd = addCartProduct.includes(curElm.id);
+
                                             return (
                                                 <>
                                                     <div className='box' key={curElm.id}>
                                                         <div className='img_box'>
-                                                            <img src={curElm.image} alt=''></img>
+                                                            <img src={curElm.images} alt=''></img>
                                                             <div className='icon'>
-                                                                <div className='icon_box'>
+                                                                <div className='icon_box' onClick={() => detailpage(curElm)} >
                                                                     <FaEye />
                                                                 </div>
-                                                                <div className='icon_box'>
+                                                                <div onClick={() => addtolike(curElm)} className={`icon_box  heart-icon  ${isLiked ? 'liked' : 'unliked'}`}>
                                                                     <FaHeart />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div className='info'>
                                                             <h3>{curElm.Name}</h3>
-                                                            <p>${curElm.price}</p>
-                                                            <button className='btn' onClick={() => addtocart(curElm)}>Add To Cart</button>
+                                                            <p> {formatCurrency(curElm.price)}</p>
+                                                            <button onClick={() => {
+
+                                                                addtocart(curElm);
+                                                            }}
+                                                                className={`add-cart ${isAdd ? 'addtocart' : 'removetocart'}`}
+                                                            >
+                                                                {isAdd ? 'Remove cart' : 'Add To Cart'}</button>
                                                         </div>
                                                     </div>
                                                 </>
@@ -109,7 +187,7 @@ const Home = ({ addtocart }) => {
                                         })
                                     }
                                 </div>
-                                <button>Show More</button>
+                                <button className='end_btn'>Show More</button>
                             </div>
                         </div>
                         <div className='right_box'>
@@ -120,15 +198,24 @@ const Home = ({ addtocart }) => {
                                     </div>
                                     <div className='detail'>
                                         <div className='img_box'>
-                                            <img src='image/image/T1.avif' alt='testimonial'></img>
+                                            <img src={girl} alt='testimonial'></img>
                                         </div>
-                                        <div className='info'>
-                                            <h3>stephen robot</h3>
-                                            <h4>web designer</h4>
-                                            <p>The product is very good to use and look.
-                                                The product is very good to use and look.
-                                            </p>
+                                        <div className='detail_testimonial'>
+                                            <div className='info'>
+                                                <h3>Charlie</h3>
+                                                <h4>Kino</h4>
+                                                <p>The products are of exceptional quality, and the customer service is top-notch. Highly recommend!
+                                                </p>
+                                            </div>
+
+                                            <div className='info'>
+                                                <h3>Naveen</h3>
+                                                <h4>web designer</h4>
+                                                <p>"I've had an amazing experience shopping here. Fast delivery, great products, and excellent support!"
+                                                </p>
+                                            </div>
                                         </div>
+
                                     </div>
                                 </div>
                                 <div className='newsletter'>
@@ -163,20 +250,20 @@ const Home = ({ addtocart }) => {
                     <div className='container'>
                         <div className='left_box'>
                             <div className='box'>
-                                <img src='image/image/Multi-Banner-1.avif' alt='banner'></img>
+                                <img src={multi1} alt='banner'></img>
                             </div>
                             <div className='box'>
-                                <img src='image/image/Multi-Banner-2.avif' alt='banner'></img>
+                                <img src={multi2} alt='banner'></img>
                             </div>
                         </div>
                         <div className='right_box'>
                             <div className='top'>
-                                <img src='image/image/Multi-Banner-3.webp' alt=''></img>
-                                <img src='image/image/Multi-Banner-4.avif' alt=''></img>
-                                <img src='image/image/Multi-Banner-4.avif' alt=''></img>
+                                <img src={multi3} alt=''></img>
+                                <img src={multi4} alt=''></img>
+                                <img src={multi4} alt=''></img>
                             </div>
                             <div className='bottom'>
-                                <img src='image/image/Multi-Banner-5.webp' alt=''></img>
+                                <img src={multi5} alt=''></img>
                             </div>
                         </div>
                     </div>
@@ -189,19 +276,29 @@ const Home = ({ addtocart }) => {
                             </div>
                             {
                                 newProduct.map((curElm) => {
+                                    const isLiked = likedProductsIds.includes(curElm.id);
+                                    const isAdd = addCartProduct.includes(curElm.id);
+
                                     return (
                                         <>
                                             <div className='product_box'>
                                                 <div className='img-box'>
-                                                    <img src={curElm.image} alt=''></img>
+                                                    <img src={curElm.images} alt=''></img>
                                                 </div>
                                                 <div className='detail'>
                                                     <h3>{curElm.Name}</h3>
-                                                    <p>${curElm.price}</p>
+                                                    <p> {formatCurrency(curElm.price)}</p>
                                                     <div className='icon'>
-                                                        <button><FaEye /></button>
-                                                        <button><FaHeart /></button>
-                                                        <button onClick={() => addtocart(curElm)}><AiOutlineShoppingCart /></button>
+                                                        <button onClick={() => detailpage(curElm)}><FaEye /></button>
+                                                        <button onClick={() => addtolike(curElm)} className={`heart-icon  ${isLiked ? 'liked' : 'unliked'}`}><FaHeart /></button>
+                                                        <button onClick={() => {
+
+                                                            addtocart(curElm);
+                                                        }}
+                                                            className={`add-cart ${isAdd ? 'addtocartlogo' : 'removetocartlogo'}`}
+                                                        >
+                                                            {isAdd ? <FaShoppingCart /> : <AiOutlineShoppingCart />}</button>
+
                                                     </div>
                                                 </div>
                                             </div>
@@ -217,19 +314,28 @@ const Home = ({ addtocart }) => {
                             </div>
                             {
                                 featuredProduct.map((curElm) => {
+                                    const isLiked = likedProductsIds.includes(curElm.id);
+                                    const isAdd = addCartProduct.includes(curElm.id);
+
                                     return (
                                         <>
                                             <div className='product_box'>
                                                 <div className='img-box'>
-                                                    <img src={curElm.image} alt=''></img>
+                                                    <img src={curElm.images} alt=''></img>
                                                 </div>
                                                 <div className='detail'>
                                                     <h3>{curElm.Name}</h3>
-                                                    <p>${curElm.price}</p>
+                                                    <p> {formatCurrency(curElm.price)}</p>
                                                     <div className='icon'>
-                                                        <button><FaEye /></button>
-                                                        <button><FaHeart /></button>
-                                                        <button onClick={() => addtocart(curElm)}><AiOutlineShoppingCart /></button>
+                                                        <button onClick={() => detailpage(curElm)}><FaEye /></button>
+                                                        <button onClick={() => addtolike(curElm)} className={`heart-icon  ${isLiked ? 'liked' : 'unliked'}`}><FaHeart /></button>
+                                                        <button onClick={() => {
+
+                                                            addtocart(curElm);
+                                                        }}
+                                                            className={`add-cart ${isAdd ? 'addtocartlogo' : 'removetocartlogo'}`}
+                                                        >
+                                                            {isAdd ? <FaShoppingCart /> : <AiOutlineShoppingCart />}</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -245,19 +351,28 @@ const Home = ({ addtocart }) => {
                             </div>
                             {
                                 topProduct.map((curElm) => {
+                                    const isLiked = likedProductsIds.includes(curElm.id);
+                                    const isAdd = addCartProduct.includes(curElm.id);
+
                                     return (
                                         <>
                                             <div className='product_box'>
                                                 <div className='img-box'>
-                                                    <img src={curElm.image} alt=''></img>
+                                                    <img src={curElm.images} alt=''></img>
                                                 </div>
                                                 <div className='detail'>
                                                     <h3>{curElm.Name}</h3>
-                                                    <p>${curElm.price}</p>
+                                                    <p> {formatCurrency(curElm.price)}</p>
                                                     <div className='icon'>
-                                                        <button><FaEye /></button>
-                                                        <button><FaHeart /></button>
-                                                        <button onClick={() => addtocart(curElm)}><AiOutlineShoppingCart /></button>
+                                                        <button onClick={() => detailpage(curElm)}><FaEye /></button>
+                                                        <button onClick={() => addtolike(curElm)} className={`heart-icon  ${isLiked ? 'liked' : 'unliked'}`}><FaHeart /></button>
+                                                        <button onClick={() => {
+
+                                                            addtocart(curElm);
+                                                        }}
+                                                            className={`add-cart ${isAdd ? 'addtocartlogo' : 'removetocartlogo'}`}
+                                                        >
+                                                            {isAdd ? <FaShoppingCart /> : <AiOutlineShoppingCart />}</button>
                                                     </div>
                                                 </div>
                                             </div>

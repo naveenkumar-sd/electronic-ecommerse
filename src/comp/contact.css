@@ -84,3 +84,10 @@
     background: #fed700;
     cursor: pointer;
 }
+
+.contact .container .form .btn_box button:hover {
+    border-radius: 10px;
+    background: gray;
+    color: #fff;
+    transition: 0.5s;
+}

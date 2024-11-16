@@ -11,6 +11,17 @@ const App = () => {
   //Add to cart
   const [cart, setCart] = useState([])
 
+  //set property for add to cart
+  const [addCartProduct, setAddCartProduct] = useState([])
+
+  //Add to like
+  const [like, setLike] = useState([])
+
+  //set color for heart(like)
+  const [likedProductsIds, setLikedProductsIds] = useState([])
+
+
+
   //shop page product
   const [shop, setShop] = useState(HomeProduct)
 
@@ -55,24 +66,40 @@ const App = () => {
 
   //Add to cart
 
-
-
   const addtocart = (product) => {
 
     const exist = cart.find((x) => {
       return x.id === product.id
     })
     if (exist) {
-      alert("This product is already in cart")
+
+      setCart(cart.filter((curElm) => curElm.id !== product.id))
+      setAddCartProduct(addCartProduct.filter((id) => id !== product.id))
     } else {
+
       setCart([...cart, { ...product, qty: 1 }])
-      alert("Added to cart")
+      setAddCartProduct([...addCartProduct, product.id]);
     }
 
-
-
   }
-  console.log(cart)
+
+  //Add to like
+  const addtolike = (product) => {
+    const exist = like.find((x) => {
+      return x.id === product.id
+    })
+    if (exist) {
+
+      setLike(like.filter((curElm) => curElm.id !== product.id));
+      setLikedProductsIds(likedProductsIds.filter((id) => id !== product.id));
+
+
+    } else {
+      setLike([...like, { ...product }])
+      setLikedProductsIds([...likedProductsIds, product.id]);
+
+    }
+  }
 
 
   return (
@@ -81,7 +108,7 @@ const App = () => {
       <BrowserRouter>
 
         <Nav search={search} setSearch={setSearch} searchproduct={searchproduct} />
-        <Rout setCart={setCart} cart={cart} shop={shop} Filter={Filter} allcartfilter={allcartfilter} addtocart={addtocart} />
+        <Rout setAddCartProduct={setAddCartProduct} addCartProduct={addCartProduct} likedProductsIds={likedProductsIds} setLikedProductsIds={setLikedProductsIds} setCart={setCart} cart={cart} setLike={setLike} like={like} shop={shop} Filter={Filter} allcartfilter={allcartfilter} addtocart={addtocart} addtolike={addtolike} />
         <Footer />
 
       </BrowserRouter>

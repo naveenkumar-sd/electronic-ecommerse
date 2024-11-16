@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
-import './shop.css'
+import React, { useState } from 'react';
+import './shop.css';
 import { FaHeart, FaEye } from "react-icons/fa";
 import { AiOutlineClose } from "react-icons/ai";
+import shopleft from '../image/shop_left.avif';
+import shoptop from '../image/shop_top.webp';
 
-const Shop = ({ shop, Filter, allcartfilter, addtocart }) => {
-
-    // Toggle product Detail
+const Shop = ({ shop, Filter, allcartfilter, addtocart, addtolike, likedProductsIds, setAddCartProduct, addCartProduct }) => {
+    // Toggle product Detail    
     const [showDetail, setShowDetail] = useState(false);
+
     // Detail Page Data
     const [detail, setDetail] = useState(null);
 
@@ -20,6 +22,16 @@ const Shop = ({ shop, Filter, allcartfilter, addtocart }) => {
         setShowDetail(false);
     };
 
+    // Function to format numbers as currency
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0,
+        }).format(amount);
+    };
+
     return (
         <>
             {
@@ -28,21 +40,28 @@ const Shop = ({ shop, Filter, allcartfilter, addtocart }) => {
                         <button className='close_btn' onClick={closedetail}><AiOutlineClose /></button>
                         <div className='container'>
                             <div className='img_box'>
-                                <img src={detail.image} alt={detail.Name}></img>
+                                <img src={detail.images} alt={detail.Name}></img>
                             </div>
                             <div className='product_info'>
                                 <h4># {detail.cat}</h4>
                                 <h2>{detail.Name}</h2>
-                                <p>A Screen Everyone Will Love: Whether your family is streaming or view</p>
-                                <p>Price: ${detail.price}</p>
-                                <button onClick={() => addtocart(detail)}>Add to cart</button>
-
+                                <p>{detail.lines}</p>
+                                <p>Price: {formatCurrency(detail.price)}</p>
+                                <button onClick={() => {
+                                    console.log(`Button clicked for: ${detail.Name}`);
+                                    addtocart(detail);
+                                }}
+                                    className={`add-cart ${addCartProduct.includes(detail.id) ? 'addtocart1' : 'removetocart1'}`}
+                                >
+                                    {addCartProduct.includes(detail.id) ? 'Remove cart' : 'Add To Cart'}
+                                </button>
                                 {/* Add more product details here */}
                             </div>
                         </div>
                     </div>
                 )
             }
+
 
             <div className='shop'>
                 <h2># shop</h2>
@@ -68,46 +87,55 @@ const Shop = ({ shop, Filter, allcartfilter, addtocart }) => {
                         </div>
                         <div className='banner'>
                             <div className='img_box'>
-                                <img src='image/image/shop_left.avif' alt=''></img>
+                                <img src={shopleft} alt=''></img>
                             </div>
                         </div>
                     </div>
                     <div className='right_box'>
                         <div className='banner'>
                             <div className='img_box'>
-                                <img src='image/image/shop_top.webp' alt=''></img>
+                                <img src={shoptop} alt=''></img>
                             </div>
                         </div>
                         <div className='product_box'>
                             <h2>Shop product</h2>
                             <div className='product_container'>
-                                {
-                                    shop.map((curElm) => {
-                                        return (
-                                            <div className='box' key={curElm.id}>
-                                                <div className='img_box'>
-                                                    <img src={curElm.image} alt={curElm.Name}></img>
-                                                    <div className='icon'>
-                                                        <li><FaHeart /></li>
-                                                        <li onClick={() => detailpage(curElm)}><FaEye /></li>
-                                                    </div>
-                                                </div>
-                                                <div className='detail'>
-                                                    <h3>{curElm.Name}</h3>
-                                                    <p>${curElm.price}</p>
-                                                    <button onClick={() => addtocart(curElm)}>Add To Cart</button>
+                                {shop.map((curElm) => {
+                                    const isLiked = likedProductsIds.includes(curElm.id);
+                                    const isAdd = addCartProduct.includes(curElm.id);
+
+                                    return (
+                                        <div className='box' key={curElm.id}>
+                                            <div className='img_box'>
+                                                <img src={curElm.images} alt={curElm.Name}></img>
+                                                <div className='icon'>
+                                                    <li onClick={() => addtolike(curElm)}
+                                                        className={`heart-icon ${isLiked ? 'liked' : 'unliked'}`}><FaHeart /></li>
+                                                    <li onClick={() => detailpage(curElm)}><FaEye /></li>
                                                 </div>
                                             </div>
-                                        );
-                                    })
-                                }
+                                            <div className='detail'>
+                                                <h3>{curElm.Name}</h3>
+                                                <p>{formatCurrency(curElm.price)}</p>
+                                                <button
+                                                    onClick={() => {
+                                                        console.log(`Button clicked for: ${curElm.Name}`);
+                                                        addtocart(curElm);
+                                                    }}
+                                                    className={`add-cart ${isAdd ? 'addtocart' : 'removetocart'}`}>
+                                                    {isAdd ? 'Remove cart' : 'Add To Cart'}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </>
-    )
-}
+    );
+};
 
 export default Shop;
